@@ -1,31 +1,18 @@
 import React, { useState } from "react";
 import "./App.css";
-import { atom, useRecoilState } from "recoil";
-
-const countState = atom({
-  key: "count",
-  default: 10,
-});
-const Counter = () => {
-  const [count, setCount] = useRecoilState(countState);
-  return (
-    <div>
-      <h1>Counter</h1>
-      <button onClick={() => setCount((prev) => prev + 1)}>+</button>
-      {count}
-    </div>
-  );
-};
-
-const DisplayCounter = () => {
-  const [count] = useRecoilState(countState);
-  return <div>{count}</div>;
-};
-
+import Counter from "./components/Counter";
+import DisplayCounter from "./components/DisplayCounter";
+import { useRecoilState } from "recoil";
+import { viewState } from "./atom/atom";
 const App = () => {
+  const [view, setView] = useRecoilState(viewState);
   return (
     <div>
-      <Counter />
+      {view ? (
+        <Counter />
+      ) : (
+        <button onClick={() => setView((prev) => !prev)}>열기</button>
+      )}
       <DisplayCounter />
       Hello
     </div>
