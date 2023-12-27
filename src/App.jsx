@@ -1,32 +1,32 @@
 import React, { useState } from "react";
 import "./App.css";
+import { atom, useRecoilState } from "recoil";
 
-const Counter = (props) => {
+const countState = atom({
+  key: "count",
+  default: 10,
+});
+const Counter = () => {
+  const [count, setCount] = useRecoilState(countState);
   return (
     <div>
       <h1>Counter</h1>
-      <button onClick={props.onUp}>+</button>
-      {props.count}
+      <button onClick={() => setCount((prev) => prev + 1)}>+</button>
+      {count}
     </div>
   );
 };
 
-const DisplayCounter = (props) => {
-  return props.count;
+const DisplayCounter = () => {
+  const [count] = useRecoilState(countState);
+  return <div>{count}</div>;
 };
 
 const App = () => {
-  const [count, setCount] = useState(10);
-
   return (
     <div>
-      <Counter
-        count={count}
-        onUp={() => {
-          setCount((prev) => prev + 1);
-        }}
-      />
-      <DisplayCounter count={count} />
+      <Counter />
+      <DisplayCounter />
       Hello
     </div>
   );
